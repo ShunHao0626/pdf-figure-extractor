@@ -23,9 +23,9 @@ from PIL import Image
 
 
 # ========== 配置路径 ==========
-WORK_DIR = Path("/Users/shunhao/Downloads/231（紧急程度）/2.改脚本功能")
-PDF_PATH = WORK_DIR / "2.2018-joule-Measuring Aging Stability of Perovskite Solar Cells.pdf"
-JSON_PATH = WORK_DIR / "4.connected-imagecaption.json"
+WORK_DIR = Path(__file__).resolve().parent
+PDF_PATH = WORK_DIR / "2018-joule-Measuring Aging Stability of Perovskite Solar Cells.pdf"
+JSON_PATH = WORK_DIR / "connected-imagecaption.json"
 
 pdf_stem = PDF_PATH.stem
 OUT_DIR = WORK_DIR / f"{pdf_stem}_extracted_sources_v2"

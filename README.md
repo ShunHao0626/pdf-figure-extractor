@@ -39,7 +39,7 @@ Write per-image metadata and a combined index
 
 ```text
 pdf-figure-extractor/
-├── 5.extract_sources.py        # Main extraction script
+├── extract_sources.py          # Main extraction script
 ├── *.pdf                       # Example PDF input
 ├── *.json                      # Example page-structure data
 ├── *_extracted_sources_v2/     # Example extraction output
@@ -67,7 +67,7 @@ python -m pip install PyMuPDF Pillow
 
 ## Configuration
 
-Before running the script, configure the working directory and input paths near the top of `5.extract_sources.py`:
+Before running the script, configure the working directory and input paths near the top of `extract_sources.py`:
 
 ```python
 WORK_DIR = Path(__file__).resolve().parent
@@ -110,7 +110,7 @@ Example:
 Run the extractor from the project directory:
 
 ```bash
-python 5.extract_sources.py
+python extract_sources.py
 ```
 
 The script reports:
