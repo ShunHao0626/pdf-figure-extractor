@@ -1,0 +1,22 @@
+{
+  "page": 2,
+  "order": "1_18",
+  "type": "chart",
+  "panel_id": "F",
+  "description": "stabilized_PCE",
+  "figure_label": "Figure 1. Hysteresis and Stabilized Power Conversion Efficiency",
+  "bbox_norm": {
+    "x1": 0.449532,
+    "y1": 0.3396,
+    "x2": 0.620722,
+    "y2": 0.424561
+  },
+  "image_size_px": [
+    215,
+    138
+  ],
+  "pdf_size": [
+    1206,
+    1566
+  ]
+}

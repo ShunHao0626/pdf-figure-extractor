@@ -1,0 +1,22 @@
+{
+  "page": 5,
+  "order": "2",
+  "type": "image",
+  "panel_id": "Table1",
+  "description": "estimated_Tsso_MPP_traces",
+  "figure_label": "Table 1. Estimated Tsso from the MPP Traces of the Currently Most Stable PSCs Reported in the Literature with Different Device Architectures (Mesoporous Regular, Planar Regular, and Inverted)",
+  "bbox_norm": {
+    "x1": 0.093203,
+    "y1": 0.155396,
+    "x2": 0.904771,
+    "y2": 0.276367
+  },
+  "image_size_px": [
+    1020,
+    198
+  ],
+  "pdf_size": [
+    1206,
+    1566
+  ]
+}

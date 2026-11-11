@@ -1,0 +1,22 @@
+{
+  "page": 2,
+  "order": "1_5",
+  "type": "chart",
+  "panel_id": "A",
+  "description": "JV_scan_forward_reverse",
+  "figure_label": "Figure 1. Hysteresis and Stabilized Power Conversion Efficiency",
+  "bbox_norm": {
+    "x1": 0.10097,
+    "y1": 0.131104,
+    "x2": 0.434315,
+    "y2": 0.315918
+  },
+  "image_size_px": [
+    419,
+    302
+  ],
+  "pdf_size": [
+    1206,
+    1566
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "page": 3,
+  "order": "1_5",
+  "type": "chart",
+  "panel_id": "B",
+  "description": "aging_planar_inverted",
+  "figure_label": "Figure 2. Initial Efficiency Losses and Dark Recovery/Losses",
+  "bbox_norm": {
+    "x1": 0.095581,
+    "y1": 0.29126,
+    "x2": 0.622624,
+    "y2": 0.429932
+  },
+  "image_size_px": [
+    662,
+    226
+  ],
+  "pdf_size": [
+    1206,
+    1566
+  ]
+}

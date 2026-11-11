@@ -40,9 +40,7 @@ Write per-image metadata and a combined index
 ```text
 pdf-figure-extractor/
 ├── extract_sources.py          # Main extraction script
-├── *.pdf                       # Example PDF input
-├── *.json                      # Example page-structure data
-├── *_extracted_sources_v2/     # Example extraction output
+├── examples/                   # Output-format example (see examples/README.md)
 └── README.md
 ```
 

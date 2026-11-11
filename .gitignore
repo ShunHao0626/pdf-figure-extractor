@@ -3,3 +3,7 @@ __pycache__/
 *.py[cod]
 .venv/
 venv/
+
+# Publisher material is kept local
+*.pdf
+*_extracted_sources*/

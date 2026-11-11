@@ -1,0 +1,22 @@
+{
+  "page": 2,
+  "order": "1_21",
+  "type": "chart",
+  "panel_id": "G",
+  "description": "MPP_tracking_PCE",
+  "figure_label": "Figure 1. Hysteresis and Stabilized Power Conversion Efficiency",
+  "bbox_norm": {
+    "x1": 0.095581,
+    "y1": 0.440918,
+    "x2": 0.620722,
+    "y2": 0.697754
+  },
+  "image_size_px": [
+    660,
+    419
+  ],
+  "pdf_size": [
+    1206,
+    1566
+  ]
+}

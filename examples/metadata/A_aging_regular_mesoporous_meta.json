@@ -1,0 +1,22 @@
+{
+  "page": 3,
+  "order": "1_2",
+  "type": "chart",
+  "panel_id": "A",
+  "description": "aging_regular_mesoporous",
+  "figure_label": "Figure 2. Initial Efficiency Losses and Dark Recovery/Losses",
+  "bbox_norm": {
+    "x1": 0.093362,
+    "y1": 0.135864,
+    "x2": 0.623258,
+    "y2": 0.273438
+  },
+  "image_size_px": [
+    666,
+    225
+  ],
+  "pdf_size": [
+    1206,
+    1566
+  ]
+}
