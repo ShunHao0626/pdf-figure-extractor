@@ -1,5 +1,7 @@
 # PDF Figure Extractor
 
+**English** · [简体中文](README_CN.md)
+
 A Python tool for extracting figures and charts from PDF documents using page-structure JSON and normalized bounding-box coordinates. Each extracted image is saved with its associated caption, footnote, and structured metadata.
 
 ## Features
