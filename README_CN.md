@@ -4,14 +4,16 @@
 
 一个基于页面结构 JSON 与归一化边界框坐标，从 PDF 文档中提取图片与图表的 Python 工具。每张提取出的图像都会附带对应的图注、脚注及结构化元数据。
 
+> **当前适用范围。** 脚本目前只针对一篇文献配置（2018 年 *Joule* 上关于钙钛矿太阳能电池老化稳定性测量的论文）。输入文件名与子图命名表均按该文献编写，命名表对应其 PDF 第 2–4 页。用于其他 PDF 时需按[配置](#配置)一节修改这些设置。
+
 ## 功能
 
 - 使用 PyMuPDF 将 PDF 页面渲染为图像。
 - 从 JSON 中读取预定义的 `group`、`image`、`figuregroup` 与 `chart` 层级结构。
 - 按归一化 `bbox` 坐标裁剪图像。
 - 区分单个子图与完整图像，避免重复提取。
-- 将图注与脚注关联到对应图像。
-- 根据子图编号与描述生成可读的文件名。
+- 以 `group` 为单位关联图注与脚注；同一 group 内的所有子图共用相同的图注与脚注文本。
+- 根据人工配置的子图编号与描述生成可读的文件名。
 - 为每张提取图像生成一个元数据 JSON 文件。
 - 生成包含全部提取记录的 `extraction_index.json`。
 - 跳过过小或裁剪结果为空的区域。
@@ -43,7 +45,8 @@ PDF + 页面结构 JSON
 pdf-figure-extractor/
 ├── extract_sources.py          # 主提取脚本
 ├── examples/                   # 输出格式示例（见 examples/README.md）
-└── README.md
+├── README.md
+└── README_CN.md
 ```
 
 脚本使用两个输入文件：
@@ -67,14 +70,16 @@ python -m pip install PyMuPDF Pillow
 
 ## 配置
 
-运行前，在 `extract_sources.py` 顶部设置工作目录与输入路径：
+输入路径定义在 `extract_sources.py` 顶部，当前提交的取值为：
 
 ```python
 WORK_DIR = Path(__file__).resolve().parent
-PDF_PATH = WORK_DIR / "input.pdf"
+PDF_PATH = WORK_DIR / "2018-joule-Measuring Aging Stability of Perovskite Solar Cells.pdf"
 JSON_PATH = WORK_DIR / "connected-imagecaption.json"
-OUT_DIR = WORK_DIR / "output"
+OUT_DIR = WORK_DIR / f"{pdf_stem}_extracted_sources_v2"
 ```
+
+处理其他文献时，将其 PDF 与页面结构 JSON 放在脚本旁，并修改 `PDF_PATH`（必要时修改 `JSON_PATH`）。输出目录由 PDF 文件名派生，在脚本导入时即被创建，早于输入文件的存在性检查。
 
 渲染分辨率由以下参数控制：
 
@@ -84,7 +89,7 @@ RENDER_DPI = 150
 
 DPI 越高，图像越大越清晰，但内存占用与处理时间也随之增加。
 
-如需自定义输出文件名，可修改子图映射表与表格信息：
+输出文件名来自写死在代码中的子图映射表。当前代码中，`FIG1_ORDER_MAP`、`FIG2_LEGEND_MAP` 与 `FIG3_ORDER_MAP` 分别作用于从 0 开始计数的页索引 1、2、3（即 PDF 第 2、3、4 页），其他页上的 chart 子图一律使用备用文件名。如需自定义输出文件名，需修改这些映射表、`collect_targets()` 中的页码判断以及表格信息：
 
 ```python
 FIG1_ORDER_MAP = {...}
@@ -146,7 +151,10 @@ python extract_sources.py
 {panel_id}_{description}_meta.json
 ```
 
-若未配置子图编号，脚本会根据图号、页码、元素序号与元素类型生成备用文件名。
+若配置了子图编号但没有描述，文件名为 `{panel_id}.png`。若未配置子图编号，脚本使用备用文件名：
+
+- 能从图注中读出 `Figure2` 这类图号或表号时，为 `{图号}_p{页码}_{序号}.png`；
+- 否则为 `p{页码}_{序号}_{类型}.png`。
 
 输出目录中还包含：
 
@@ -165,7 +173,7 @@ extraction_index.json
 | `type` | 目标类型，如 `chart` 或 `image` |
 | `panel_id` | 子图或表格编号 |
 | `description` | 文件名中使用的简短描述 |
-| `figure_label` | 关联的图或表标题 |
+| `figure_label` | 所在 group 的完整图注文本（与 `caption` 取值相同） |
 | `bbox_norm` | 归一化裁剪坐标 `x1`、`y1`、`x2`、`y2` |
 | `caption` | 关联的图注文本 |
 | `footnote` | 当前实现中为图注与脚注的合并文本 |
@@ -200,8 +208,9 @@ extraction_index.json
 ## 局限
 
 - 输入与输出路径在源码中配置，目前不支持命令行参数。
-- 子图编号与描述依赖人工维护的映射表。
-- 若页码或 JSON 元素序号改变，需同步更新映射表。
+- 子图编号与描述依赖针对单篇文献人工维护的映射表。
+- 映射表与具体页索引绑定，若页码或 JSON 元素序号改变，需同步更新。
+- 只收集顶层 `group` 内部的元素；位于 group 之外的顶层元素会被忽略。
 - 独立的 `image` 元素目前共用同一个 `TABLE_INFO`，处理多张独立图像时需扩展命名逻辑。
 - 同名文件会被覆盖，旧文件不会被自动删除。
 - OCR 与上游解析错误会原样保留在导出的元数据中。

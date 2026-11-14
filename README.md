@@ -4,14 +4,16 @@
 
 A Python tool for extracting figures and charts from PDF documents using page-structure JSON and normalized bounding-box coordinates. Each extracted image is saved with its associated caption, footnote, and structured metadata.
 
+> **Current scope.** The script is currently configured for a single article (a 2018 *Joule* paper on measuring the aging stability of perovskite solar cells). The input filename and the panel-naming tables are written for that article, with the naming tables keyed to its PDF pages 2–4. Applying the script to another PDF requires editing these settings, as described under [Configuration](#configuration).
+
 ## Features
 
 - Renders PDF pages as images with PyMuPDF.
 - Reads predefined `group`, `image`, `figuregroup`, and `chart` hierarchies from JSON.
 - Crops figures using normalized `bbox` coordinates.
 - Distinguishes individual panels from complete images to avoid duplicate extraction.
-- Associates captions and footnotes with their corresponding figures.
-- Generates readable filenames from panel identifiers and descriptions.
+- Associates captions and footnotes with their figures at the `group` level; all panels inside one group share the same caption and footnote text.
+- Generates readable filenames from manually configured panel identifiers and descriptions.
 - Creates a metadata JSON file for every extracted image.
 - Produces an `extraction_index.json` file containing all extraction records.
 - Skips regions that are too small or produce empty crops.
@@ -43,7 +45,8 @@ Write per-image metadata and a combined index
 pdf-figure-extractor/
 ├── extract_sources.py          # Main extraction script
 ├── examples/                   # Output-format example (see examples/README.md)
-└── README.md
+├── README.md
+└── README_CN.md
 ```
 
 The script uses two input files:
@@ -67,14 +70,16 @@ python -m pip install PyMuPDF Pillow
 
 ## Configuration
 
-Before running the script, configure the working directory and input paths near the top of `extract_sources.py`:
+The input paths are defined near the top of `extract_sources.py`. The committed values are:
 
 ```python
 WORK_DIR = Path(__file__).resolve().parent
-PDF_PATH = WORK_DIR / "input.pdf"
+PDF_PATH = WORK_DIR / "2018-joule-Measuring Aging Stability of Perovskite Solar Cells.pdf"
 JSON_PATH = WORK_DIR / "connected-imagecaption.json"
-OUT_DIR = WORK_DIR / "output"
+OUT_DIR = WORK_DIR / f"{pdf_stem}_extracted_sources_v2"
 ```
+
+To process another document, place its PDF and page-structure JSON next to the script and change `PDF_PATH` (and `JSON_PATH` if needed). The output directory is derived from the PDF filename and is created when the script is imported, before the input files are checked.
 
 The rendering resolution is controlled by:
 
@@ -84,7 +89,7 @@ RENDER_DPI = 150
 
 A higher DPI produces larger and sharper images but increases memory usage and processing time.
 
-To customize output filenames, update the panel maps and table information:
+Output filenames come from hard-coded panel maps. In the current code, `FIG1_ORDER_MAP`, `FIG2_LEGEND_MAP`, and `FIG3_ORDER_MAP` are applied to zero-based page indices 1, 2, and 3 (PDF pages 2, 3, and 4), and all chart panels on other pages fall back to generated names. To customize output filenames, update these maps, the page conditions in `collect_targets()`, and the table information:
 
 ```python
 FIG1_ORDER_MAP = {...}
@@ -146,7 +151,10 @@ The corresponding metadata file is named:
 {panel_id}_{description}_meta.json
 ```
 
-If no panel identifier is configured, the script creates a fallback filename from the figure number, page number, element order, and element type.
+If a panel identifier is configured without a description, the filename is `{panel_id}.png`. If no panel identifier is configured, the script uses a fallback name:
+
+- `{figure_number}_p{page}_{order}.png` when a figure or table number such as `Figure2` can be read from the caption;
+- `p{page}_{order}_{type}.png` otherwise.
 
 The output directory also contains:
 
@@ -165,7 +173,7 @@ This file is a JSON array containing the metadata for every extracted image, mak
 | `type` | Target type, such as `chart` or `image` |
 | `panel_id` | Panel or table identifier |
 | `description` | Short description used in the filename |
-| `figure_label` | Associated figure or table title |
+| `figure_label` | Full caption text of the enclosing group (the same value as `caption`) |
 | `bbox_norm` | Normalized `x1`, `y1`, `x2`, and `y2` crop coordinates |
 | `caption` | Associated caption text |
 | `footnote` | Combined caption and footnote text in the current implementation |
@@ -200,8 +208,9 @@ Validates the inputs, loads the JSON, renders the PDF, collects targets, saves i
 ## Limitations
 
 - Input and output paths are configured in the source code; command-line arguments are not currently supported.
-- Panel identifiers and descriptions depend on manually maintained mapping tables.
-- The mappings must be updated if page numbers or JSON element order values change.
+- Panel identifiers and descriptions depend on manually maintained mapping tables written for one article.
+- The mappings are tied to specific page indices and must be updated if page numbers or JSON element order values change.
+- Only elements inside top-level `group` elements are collected; top-level elements outside a group are ignored.
 - Standalone `image` elements currently share one `TABLE_INFO` value. The naming logic must be extended when processing multiple independent images.
 - Existing files with the same names are overwritten, while obsolete files are not removed automatically.
 - OCR and upstream parsing errors are preserved in the exported metadata.
