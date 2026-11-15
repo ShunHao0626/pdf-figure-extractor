@@ -2,9 +2,9 @@
 
 **English** · [简体中文](README_CN.md)
 
-A Python tool for extracting figures and charts from PDF documents using page-structure JSON and normalized bounding-box coordinates. Each extracted image is saved with its associated caption, footnote, and structured metadata.
+**Research workflow.** Scientific figures are easier to inspect and reuse when image crops remain linked to their captions and page locations. I built a Python extractor that combines PDF rendering with page-structure JSON to export figure panels, captions, footnotes, and a searchable metadata index.
 
-> **Current scope.** The script is currently configured for a single article (a 2018 *Joule* paper on measuring the aging stability of perovskite solar cells). The input filename and the panel-naming tables are written for that article, with the naming tables keyed to its PDF pages 2–4. Applying the script to another PDF requires editing these settings, as described under [Configuration](#configuration).
+The repository uses a 2018 *Joule* perovskite-stability paper as its configured case study and includes [12 example metadata records](examples/metadata/). The panel maps and input paths can be adapted to another paper through the [configuration](#configuration) section.
 
 ## Features
 
