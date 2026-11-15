@@ -2,7 +2,7 @@
 
 **English** · [简体中文](README_CN.md)
 
-**Research workflow.** Scientific figures are easier to inspect and reuse when image crops remain linked to their captions and page locations. I built a Python extractor that combines PDF rendering with page-structure JSON to export figure panels, captions, footnotes, and a searchable metadata index.
+This repository provides a Python tool that extracts figure panels from research PDFs using page-structure JSON and normalized bounding boxes. It exports each crop with its caption, footnote, page location, and a searchable metadata index.
 
 The repository uses a 2018 *Joule* perovskite-stability paper as its configured case study and includes [12 example metadata records](examples/metadata/). The panel maps and input paths can be adapted to another paper through the [configuration](#configuration) section.
 
