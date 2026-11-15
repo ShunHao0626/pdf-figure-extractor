@@ -176,12 +176,11 @@ extraction_index.json
 | `figure_label` | 所在 group 的完整图注文本（与 `caption` 取值相同） |
 | `bbox_norm` | 归一化裁剪坐标 `x1`、`y1`、`x2`、`y2` |
 | `caption` | 关联的图注文本 |
-| `footnote` | 当前实现中为图注与脚注的合并文本 |
-| `context` | 当前实现中为合并后的脚注文本 |
+| `footnote` | 所属图组的合并脚注文本 |
+| `context` | 图注与脚注合并形成的上下文文本 |
 | `image_size_px` | 输出图像尺寸 `[宽, 高]` |
 | `pdf_size` | 源 JSON 中记录的页面尺寸 |
 
-> 在当前实现中，由于 `build_text()` 返回值的赋值顺序，`footnote` 与 `context` 并不完全符合其通常含义。若需严格区分，请修改 `collect_targets()` 中的赋值。
 
 ## 核心函数
 

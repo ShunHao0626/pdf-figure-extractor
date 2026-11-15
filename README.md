@@ -176,12 +176,11 @@ This file is a JSON array containing the metadata for every extracted image, mak
 | `figure_label` | Full caption text of the enclosing group (the same value as `caption`) |
 | `bbox_norm` | Normalized `x1`, `y1`, `x2`, and `y2` crop coordinates |
 | `caption` | Associated caption text |
-| `footnote` | Combined caption and footnote text in the current implementation |
-| `context` | Combined footnote text in the current implementation |
+| `footnote` | Combined footnote text for the enclosing figure group |
+| `context` | Caption and footnote text combined for downstream inspection |
 | `image_size_px` | Output image dimensions as `[width, height]` |
 | `pdf_size` | Page dimensions recorded in the source JSON |
 
-> In the current implementation, the assignment order of values returned by `build_text()` means that `footnote` and `context` do not follow their conventional meanings exactly. If these fields must be strictly separated, update their assignment in `collect_targets()`.
 
 ## Core Functions
 

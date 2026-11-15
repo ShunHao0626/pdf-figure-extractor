@@ -155,7 +155,7 @@ def collect_targets(page_items: list, page_idx: int) -> list:
             group_items = item.get("items", [])
             # 先收集 group 内的 caption/footnote（Table 页的 caption 在这里）
             caption, footnotes = collect_cf(group_items)
-            footnote_text, context = build_text(caption, footnotes)
+            context, footnote_text = build_text(caption, footnotes)
 
             for sub in group_items:
                 sub_type = sub.get("type", "")
